@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechSolutions – Tecnologia que transforma</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(245, 244, 255, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header-frase {
+      font-size: 0.82rem;
+      color: var(--cor-texto-suave);
+      font-style: italic;
+      display: none;
+    }
+
+    nav[data-tipo="principal"] {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    nav[data-tipo="principal"] a {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--cor-texto-suave);
+      transition: var(--transicao);
+      border: 1.5px solid transparent;
+    }
+
+    nav[data-tipo="principal"] a:hover {
+      color: var(--cor-primaria);
+      text-shadow: none;
+      background: rgba(91, 33, 182, 0.06);
+    }
+
+    nav[data-tipo="principal"] a.link-login {
+      border-color: var(--cor-borda);
+    }
+
+    nav[data-tipo="principal"] a.link-login:hover {
+      border-color: var(--cor-primaria);
+      color: var(--cor-primaria);
+    }
+
+    .link-servicos {
+      display: none; 
+    }
+
+    body.logado .link-servicos {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 18px;
+      background: linear-gradient(135deg, var(--cor-primaria), #2563eb);
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #fff !important;
+      text-shadow: none !important;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 40%, rgba(91,33,182,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(124,58,237,0.08) 0%, transparent 60%),
+        var(--cor-fundo);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 50%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300d4ff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .hero-conteudo {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-texto { animation: fadeInUp 0.7s ease both; }
+
+    .hero-kicker {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--cor-primaria);
+      margin-bottom: 1.2rem;
+      padding: 4px 14px;
+      border: 1px solid rgba(91,33,182,0.3);
+      border-radius: 20px;
+    }
+
+    .hero-titulo {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.05;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-titulo .destaque {
+      background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      max-width: 480px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-visual {
+      animation: fadeInUp 0.7s 0.2s ease both;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-card {
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: 20px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 580px;
+      box-shadow: var(--sombra-forte);
+      animation: glow 3s ease-in-out infinite;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .stat-item {
+      background: rgba(91,33,182,0.05);
+      border: 1px solid rgba(91,33,182,0.1);
+      border-radius: 12px;
+      padding: 1.2rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: var(--fonte-titulo);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--cor-primaria);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--cor-texto-suave);
+      margin: 0;
+    }
+
+    /* --- Seções gerais --- */
+    section {
+      padding: 5rem 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-kicker {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--cor-primaria);
+      margin-bottom: 0.8rem;
+    }
+
+    .sobre {
+      background: var(--cor-fundo2);
+    }
+
+    .sobre-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cor-primaria), transparent);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -2.4rem;
+      top: 6px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--cor-primaria);
+      border: 2px solid var(--cor-fundo2);
+    }
+
+    .timeline-ano {
+      font-size: 0.75rem;
+      color: var(--cor-primaria);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .timeline-texto { font-size: 0.92rem; }
+
+    /* --- Vídeo --- */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: var(--raio);
+      border: 1px solid var(--cor-borda);
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .galeria {
+      background: var(--cor-fundo);
+    }
+
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto auto;
+      gap: 1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .galeria-item {
+      border-radius: var(--raio);
+      overflow: hidden;
+      position: relative;
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      aspect-ratio: 4/3;
+    }
+
+    .galeria-item:nth-child(1) {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
+    .galeria-item:nth-child(4) {
+      grid-column: span 2;
+      aspect-ratio: 16/9;
+    }
+
+    .galeria-item figure {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+    }
+
+    .galeria-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+
+    .galeria-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .galeria-item figcaption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 0.8rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.7));
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.8);
+      opacity: 0;
+      transition: var(--transicao);
+    }
+
+    .galeria-item:hover figcaption {
+      opacity: 1;
+    }
+
+    /* Placeholder SVG interno para as imagens */
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      color: var(--cor-texto-suave);
+      font-size: 0.8rem;
+    }
+
+    .img-placeholder svg {
+      opacity: 0.3;
+    }
+
+    /* --- Serviços --- */
+    .servicos {
+      background: var(--cor-fundo2);
+      overflow: hidden;
+    }
+
+    .servicos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .servico-card {
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: var(--transicao);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .servico-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
+      opacity: 0;
+      transition: var(--transicao);
+    }
+
+    .servico-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(91,33,182,0.2);
+      box-shadow: var(--sombra-forte);
+    }
+
+    .servico-card:hover::before {
+      opacity: 1;
+    }
+
+    .servico-icone {
+      width: 52px;
+      height: 52px;
+      border-radius: 12px;
+      background: rgba(91,33,182,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+      font-size: 1.5rem;
+    }
+
+    .servico-preco {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: var(--fonte-titulo);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--cor-primaria);
+    }
+
+    .servico-preco small {
+      font-size: 0.7rem;
+      color: var(--cor-texto-suave);
+      font-weight: 400;
+    }
+
+    /* --- Fundadores --- */
+    .fundadores { background: var(--cor-fundo); }
+
+    .fundadores-wrapper {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      overflow-x: auto;
+    }
+
+    /* Uso de tabela para layout de fundadores */
+    table.tabela-fundadores {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+
+    table.tabela-fundadores thead {
+      position: sticky;
+      top: 0;
+    }
+
+    table.tabela-fundadores tbody tr {
+      transition: var(--transicao);
+    }
+
+    table.tabela-fundadores td:first-child {
+      font-weight: 600;
+      color: var(--cor-texto);
+    }
+
+    .avatar-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fonte-titulo);
+      font-weight: 700;
+      font-size: 1rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* --- Footer --- */
+    footer {
+      background: #f0eeff;
+      border-top: 1px solid var(--cor-borda);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem 3rem;
+      border-bottom: 1px solid var(--cor-borda);
+    }
+
+    .footer-col h4 {
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--cor-texto-suave);
+      margin-bottom: 1.2rem;
+    }
+
+    /* Lista de contatos no footer */
+    ul.lista-contatos {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.lista-contatos li {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    ul.lista-contatos li::before {
+      content: '→';
+      color: var(--cor-primaria);
+      font-size: 0.75rem;
+    }
+
+    /* Ícones de pagamento */
+    .pagamentos {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.5rem;
+    }
+
+    .pagamento-item {
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--cor-texto-suave);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .pagamento-item figure {
+      margin: 0;
+      line-height: 1;
+    }
+
+    .footer-bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--cor-texto-suave);
+    }
+
+    /* --- Responsivo --- */
+    @media (max-width: 768px) {
+      .hero-conteudo { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .sobre-grid { grid-template-columns: 1fr; }
+      .servicos-grid { grid-template-columns: 1fr; }
+      .galeria-grid { grid-template-columns: 1fr 1fr; }
+      .galeria-item:nth-child(1),
+      .galeria-item:nth-child(4) { grid-column: span 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .header-inner { flex-wrap: wrap; gap: 1rem; }
+      nav[data-tipo="principal"] { flex-wrap: wrap; }
+    }
+
+    @media (min-width: 900px) {
+      .header-frase { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== HEADER ===================== -->
+<header>
+  <div class="header-inner">
+
+    <a href="index.html" class="logo">
+      <div class="logo-icone">TS</div>
+      <span class="logo-texto">Tech<span>Solutions</span></span>
+    </a>
+
+    <p class="header-frase"><em>Inovação que conecta o seu negócio ao futuro</em></p>
+
+    <nav data-tipo="principal" aria-label="Navegação principal">
+      <a href="#sobre">Sobre</a>
+      <a href="#servicos">Serviços</a>
+      <a href="cadastro.html">Novo Cadastro</a>
+      <a href="login.html" class="link-login">Login</a>
+      <a href="solicitacao.html" class="link-servicos">Solicitar Serviço</a>
+    </nav>
+
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<main>
+  <section class="hero" id="home">
+    <div class="hero-conteudo">
+
+      <div class="hero-texto">
+        <span class="hero-kicker">🚀 Desde 2008 transformando empresas</span>
+        <h1 class="hero-titulo">
+          Tecnologia que<br>
+          <span class="destaque">transforma</span><br>
+          o seu negócio
+        </h1>
+        <p class="hero-desc">
+          A <strong>TechSolutions</strong> oferece soluções completas em
+          infraestrutura, segurança cibernética, nuvem e desenvolvimento de sistemas
+          para empresas de todos os portes.
+        </p>
+        <div class="hero-ctas">
+          <a href="cadastro.html" class="btn btn-primario">Começar Agora</a>
+          <a href="#servicos" class="btn btn-secundario">Ver Serviços</a>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <p class="section-kicker">Números que falam por nós</p>
+          <div class="stat-grid">
+            <div class="stat-item">
+              <div class="stat-num">500+</div>
+              <p class="stat-label">Clientes ativos</p>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">16</div>
+              <p class="stat-label">Anos no mercado</p>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">99.9%</div>
+              <p class="stat-label">Uptime garantido</p>
+            </div>
+            <div class="stat-item">
+              <div class="stat-num">24/7</div>
+              <p class="stat-label">Suporte técnico</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SOBRE / HISTÓRIA ===================== -->
+  <section class="sobre" id="sobre">
+    <div class="sobre-grid">
+
+      <div>
+        <p class="section-kicker">Nossa história</p>
+        <h2>Mais de uma década conectando empresas à tecnologia</h2>
+        <p class="mt-2">
+          A <strong>TechSolutions</strong> nasceu em 2004, no coração de
+          <mark>Recife – PE</mark>, fundada por dois engenheiros apaixonados por
+          tecnologia com uma missão clara: tornar soluções de TI de alto nível
+          acessíveis para empresas de qualquer porte no Brasil.
+        </p>
+        <p>
+          O que começou como uma pequena consultoria de redes cresceu para uma
+          empresa de referência regional, com mais de <abbr title="quinhentos">500</abbr>
+          clientes ativos e uma equipe de 80 profissionais certificados pelas
+          principais fabricantes do setor, como Microsoft, Cisco, AWS e VMware.
+        </p>
+        <p>
+          Nossa filosofia é simples: entender profundamente o negócio do cliente
+          e entregar tecnologia que seja, acima de tudo, <em>estratégica</em>.
+          Não vendemos produtos — construímos parcerias de longo prazo.
+        </p>
+      </div>
+
+      <div class="timeline" aria-label="Linha do tempo da empresa">
+        <div class="timeline-item">
+          <span class="timeline-ano">2008</span>
+          <p class="timeline-texto">Fundação da TechSolutions com foco em infraestrutura de redes locais para PMEs.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-ano">2011</span>
+          <p class="timeline-texto">Expansão para serviços de segurança da informação e monitoramento 24/7.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-ano">2014</span>
+          <p class="timeline-texto">Parceria estratégica com AWS e Microsoft Azure, inaugurando a divisão de Cloud Computing.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-ano">2018</span>
+          <p class="timeline-texto">Abertura de filiais em Fortaleza e Salvador. Time ultrapassa 50 profissionais.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-ano">2022</span>
+          <p class="timeline-texto">Lançamento do portal de serviços digitais e certificação ISO/IEC 27001 em segurança da informação.</p>
+        </div>
+        <div class="timeline-item">
+          <span class="timeline-ano">2024</span>
+          <p class="timeline-texto">Atingimos a marca de 500+ clientes e iniciamos a divisão de Inteligência Artificial aplicada a negócios.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Vídeo Institucional em Streaming -->
+    <div class="container mt-4" style="max-width:900px;">
+      <p class="section-kicker text-center">Vídeo Institucional</p>
+      <h3 class="text-center mb-3">Conheça a TechSolutions</h3>
+      <div class="video-wrapper">
+        <!-- Vídeo institucional hospedado no YouTube, exibido em streaming via embed -->
+        <iframe
+          src="https://youtu.be/9SHvl63CLfs?si=bsSxj25ydCfGZtMw"
+          title="Vídeo Institucional – TechSolutions"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ===================== GALERIA ===================== -->
+  <section class="galeria" id="galeria">
+    <div class="section-header container">
+      <p class="section-kicker">Nossa empresa</p>
+      <h2>Instalações &amp; Equipe</h2>
+      <p class="text-suave">Conheça os espaços onde criamos soluções todos os dias</p>
+    </div>
+
+    <div class="galeria-grid">
+
+      <div class="galeria-item">
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"
+            alt="Escritório principal da TechSolutions com ambiente moderno de trabalho"
+            width="800" height="450"
+            loading="lazy" />
+          <figcaption>Sede principal – Recife, PE</figcaption>
+        </figure>
+      </div>
+
+      <div class="galeria-item">
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80"
+            alt="Equipe técnica da TechSolutions colaborando em projeto"
+            width="600" height="450"
+            loading="lazy" />
+          <figcaption>Time de desenvolvimento</figcaption>
+        </figure>
+      </div>
+
+      <div class="galeria-item">
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80"
+            alt="Data center moderno com servidores de alta performance"
+            width="600" height="450"
+            loading="lazy" />
+          <figcaption>Data Center – infraestrutura de ponta</figcaption>
+        </figure>
+      </div>
+
+      <div class="galeria-item">
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&q=80"
+            alt="Reunião de equipe em sala de conferências"
+            width="800" height="450"
+            loading="lazy" />
+          <figcaption>Sala de operações e suporte 24/7</figcaption>
+        </figure>
+      </div>
+
+      <div class="galeria-item">
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1573164713988-8665fc963095?w=600&q=80"
+            alt="Analista de segurança monitorando sistemas"
+            width="600" height="450"
+            loading="lazy" />
+          <figcaption>Centro de Operações de Segurança (SOC)</figcaption>
+        </figure>
+      </div>
+
+      <div class="galeria-item">
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&q=80"
+            alt="Ambiente de laboratório e testes de hardware"
+            width="600" height="450"
+            loading="lazy" />
+          <figcaption>Laboratório de inovação</figcaption>
+        </figure>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===================== SERVIÇOS ===================== -->
+  <section class="servicos" id="servicos">
+    <div class="section-header container">
+      <p class="section-kicker">O que oferecemos</p>
+      <h2>Principais Serviços de TI</h2>
+      <p class="text-suave">Soluções completas para cada etapa da jornada digital da sua empresa</p>
+    </div>
+
+    <div class="servicos-grid">
+
+      <article class="servico-card">
+        <div class="servico-icone">🔒</div>
+        <h3>Cibersegurança</h3>
+        <p>Proteção completa contra ameaças digitais com monitoramento 24/7, firewall gerenciado, SIEM e resposta a incidentes.</p>
+        <ul>
+          <li>Análise de vulnerabilidades</li>
+          <li>Testes de penetração (Pentest)</li>
+          <li>SOC gerenciado</li>
+        </ul>
+        <span class="servico-preco">A partir de R$ 1.200<small>/mês</small></span>
+      </article>
+
+      <article class="servico-card">
+        <div class="servico-icone">☁️</div>
+        <h3>Cloud Computing</h3>
+        <p>Migração, gerenciamento e otimização de ambientes em nuvem (AWS, Azure e Google Cloud) com redução de custos garantida.</p>
+        <ul>
+          <li>Migração para nuvem</li>
+          <li>Multi-cloud management</li>
+          <li>FinOps e otimização de custos</li>
+        </ul>
+        <span class="servico-preco">A partir de R$ 2.500<small>/mês</small></span>
+      </article>
+
+      <article class="servico-card">
+        <div class="servico-icone">🌐</div>
+        <h3>Redes &amp; Infraestrutura</h3>
+        <p>Projeto, implantação e manutenção de redes corporativas de alta disponibilidade com SLA garantido em contrato.</p>
+        <ul>
+          <li>Redes LAN/WAN e SD-WAN</li>
+          <li>Wi-Fi corporativo (Cisco/Aruba)</li>
+          <li>Monitoramento NOC</li>
+        </ul>
+        <span class="servico-preco">A partir de R$ 800<small>/mês</small></span>
+      </article>
+
+      <article class="servico-card">
+        <div class="servico-icone">💻</div>
+        <h3>Desenvolvimento de Sistemas</h3>
+        <p>Criação de sistemas web, mobile e integração de APIs para automatizar processos e impulsionar a produtividade.</p>
+        <ul>
+          <li>Sistemas web e ERP customizados</li>
+          <li>Apps iOS e Android</li>
+          <li>Integração de APIs e microsserviços</li>
+        </ul>
+        <span class="servico-preco">A partir de R$ 5.000<small>/projeto</small></span>
+      </article>
+
+      <article class="servico-card">
+        <div class="servico-icone">🤖</div>
+        <h3>Inteligência Artificial</h3>
+        <p>Soluções de IA aplicadas ao negócio: automação inteligente, chatbots corporativos e análise preditiva de dados.</p>
+        <ul>
+          <li>Chatbots e assistentes virtuais</li>
+          <li>Machine Learning aplicado</li>
+          <li>Análise de dados e BI</li>
+        </ul>
+        <span class="servico-preco">A partir de R$ 3.800<small>/mês</small></span>
+      </article>
+
+      <article class="servico-card">
+        <div class="servico-icone">🛠️</div>
+        <h3>Suporte Técnico Gerenciado</h3>
+        <p>Help Desk e Field Service com técnicos certificados disponíveis 24 horas por dia, 7 dias por semana, 365 dias por ano.</p>
+        <ul>
+          <li>Help Desk Nível 1, 2 e 3</li>
+          <li>Suporte on-site e remoto</li>
+          <li>Gerenciamento de ativos de TI</li>
+        </ul>
+        <span class="servico-preco">A partir de R$ 600<small>/mês</small></span>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== FUNDADORES ===================== -->
+  <section class="fundadores" id="fundadores">
+    <div class="section-header container">
+      <p class="section-kicker">Quem fundou</p>
+      <h2>Os Fundadores</h2>
+      <p class="text-suave">As mentes por trás da TechSolutions</p>
+    </div>
+
+    <div class="fundadores-wrapper">
+      <table class="tabela-fundadores" aria-label="Tabela de fundadores da empresa">
+        <thead>
+          <tr>
+            <th scope="col">Fundador(a)</th>
+            <th scope="col">Cargo</th>
+            <th scope="col">Currículo Resumido</th>
+            <th scope="col">Especialidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="avatar-cell">
+                <div class="avatar">RO</div>
+                <strong>Gabriel Bezerra de Andrade</strong>
+              </div>
+            </td>
+            <td><span class="badge badge-info">CEO &amp; Co-fundador</span></td>
+            <td>
+              Cientista da Computação pela Cesar School (2026). MBA em Gestão de TI pela FGV.
+              Atuou como arquiteto de sistemas no Banco do Brasil por 4 anos antes de
+              fundar a TechSolutions. Certificado CCIE e AWS Solutions Architect Professional.
+              Palestrante no FISL e Campus Party.
+            </td>
+            <td>Arquitetura de Sistemas</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="avatar-cell">
+                <div class="avatar" style="background: linear-gradient(135deg, var(--cor-secundaria), #1d4ed8);">AC</div>
+                <strong>Letícia Gomes da Silva</strong>
+              </div>
+            </td>
+            <td><span class="badge badge-aviso">CTO &amp; Co-fundadora</span></td>
+            <td>
+              Cientista da Computação pela Cesar School (2026). Doutorado em Ciência de Dados pelo CIn/UFPE. 
+              Ex-pesquisadora do RNP (Rede Nacional de
+              Ensino e Pesquisa). Especialista em modelos de aprendizado de máquina.
+              Certificada DS, CEH e CompDS+.
+            </td>
+            <td>Ciência de Dados</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="footer-grid">
+
+    <!-- Coluna 1: Sobre -->
+    <div class="footer-col">
+      <a href="index.html" class="logo mb-3" style="display:flex;">
+        <div class="logo-icone">TS</div>
+        <span class="logo-texto">Tech<span>Solutions</span></span>
+      </a>
+      <p style="font-size:0.85rem;">
+        Tecnologia estratégica para empresas que querem crescer com segurança e inovação.
+      </p>
+    </div>
+
+    <!-- Coluna 2: Contatos -->
+    <div class="footer-col">
+      <h4>Contatos</h4>
+      <ul class="lista-contatos">
+        <li>
+          <a href="tel:+558132001234">(81) 3200-1234</a>
+          <span style="font-size:0.75rem; color: var(--cor-texto-suave);">Telefone fixo</span>
+        </li>
+        <li>
+          <a href="https://wa.me/5581991234567" target="_blank" rel="noopener">(81) 99123-4567</a>
+          <span style="font-size:0.75rem; color: var(--cor-texto-suave);">WhatsApp</span>
+        </li>
+        <li>
+          <a href="mailto:contato@techsolutions.com.br">contato@techsolutions.com.br</a>
+          <span style="font-size:0.75rem; color: var(--cor-texto-suave);">E-mail</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Coluna 3: Endereço -->
+    <div class="footer-col">
+      <h4>Endereço</h4>
+      <address style="font-style:normal; font-size:0.9rem; color: var(--cor-texto-suave); line-height:1.8;">
+        Av. Agamenon Magalhães, 4444<br>
+        Sala 802 – Torre Empresarial<br>
+        Boa Viagem, Recife – PE<br>
+        CEP: 51021-240<br>
+        <strong>Brasil</strong>
+      </address>
+    </div>
+
+    <!-- Coluna 4: Formas de pagamento -->
+    <div class="footer-col">
+      <h4>Formas de Pagamento</h4>
+      <div class="pagamentos">
+        <div class="pagamento-item">
+          <figure aria-label="Boleto bancário">🏦</figure>
+          Boleto
+        </div>
+        <div class="pagamento-item">
+          <figure aria-label="Cartão de crédito Visa">💳</figure>
+          Visa
+        </div>
+        <div class="pagamento-item">
+          <figure aria-label="Mastercard">💳</figure>
+          Master
+        </div>
+        <div class="pagamento-item">
+          <figure aria-label="PIX">⚡</figure>
+          PIX
+        </div>
+        <div class="pagamento-item">
+          <figure aria-label="American Express">💳</figure>
+          Amex
+        </div>
+        <div class="pagamento-item">
+          <figure aria-label="Transferência bancária">🏛️</figure>
+          TED/DOC
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2024 TechSolutions. Todos os direitos reservados.</span>
+    <span>CNPJ: 12.345.678/0001-90</span>
+  </div>
+</footer>
+
+<script>
+  // Verifica se há login salvo na sessionStorage para exibir link de serviços
+  (function verificarLogin() {
+    if (sessionStorage.getItem('techsolutions_logado') === '1') {
+      document.body.classList.add('logado');
+    }
+  })();
+</script>
+
+</body>
+</html>

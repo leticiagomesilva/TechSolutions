@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitar Serviços de TI – TechSolutions</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ============ ESTILOS INTERNOS – SOLICITAÇÃO ============ */
+
+    /* Layout principal */
+    body {
+      overflow-y: auto; /* Controle de barra de rolagem automática */
+    }
+
+    .pagina-solicitacao {
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at top right, rgba(91,33,182,0.06) 0%, transparent 50%),
+        var(--cor-fundo);
+    }
+
+    /* --- Header compacto da página --- */
+    .sol-header {
+      background: rgba(245,244,255,0.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--cor-borda);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .sol-header nav a {
+      font-size: 0.85rem;
+      color: var(--cor-texto-suave);
+      padding: 6px 14px;
+      border-radius: 6px;
+      transition: var(--transicao);
+    }
+
+    .sol-header nav a:hover { color: var(--cor-texto); background: rgba(255,255,255,0.05); }
+
+    /* --- Conteúdo principal --- */
+    .sol-main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* --- Seções da página --- */
+    .sol-secao {
+      background: var(--cor-card);
+      border: 1px solid var(--cor-borda);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .sol-secao-header {
+      padding: 1.2rem 1.8rem;
+      border-bottom: 1px solid var(--cor-borda);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(91,33,182,0.03);
+    }
+
+    .sol-secao-header h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sol-secao-body {
+      padding: 1.8rem;
+    }
+
+    /* --- Seção 1: Usuário logado --- */
+    .usuario-grid {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .usuario-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fonte-titulo);
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Seletor de id para labels de usuário */
+    #label-nome, #label-login {
+      display: block;
+    }
+
+    #label-nome {
+      font-family: var(--fonte-titulo);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--cor-texto);
+    }
+
+    #label-login {
+      font-size: 0.85rem;
+      color: var(--cor-primaria);
+      margin-top: 2px;
+    }
+
+    /* --- Tabela de solicitações --- */
+    .tabela-solicitacoes {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    .tabela-solicitacoes thead tr {
+      background: rgba(91,33,182,0.06);
+    }
+
+    .tabela-solicitacoes th {
+      padding: 12px 14px;
+      font-size: 0.72rem;
+      white-space: nowrap;
+    }
+
+    .tabela-solicitacoes td {
+      padding: 13px 14px;
+      white-space: nowrap;
+    }
+
+    /* Seletor de pseudo-classe: última coluna (botão excluir) */
+    .tabela-solicitacoes td:last-child {
+      text-align: center;
+    }
+
+    .btn-excluir {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      color: #fca5a5;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transicao);
+      font-family: var(--fonte-titulo);
+    }
+
+    .btn-excluir:hover {
+      background: rgba(239,68,68,0.25);
+      border-color: rgba(239,68,68,0.5);
+    }
+
+    /* Linha com animação de remoção */
+    .linha-removida {
+      animation: fadeOut 0.3s ease forwards;
+    }
+
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(-10px); }
+    }
+
+    .tabela-vazia {
+      text-align: center;
+      padding: 2rem !important;
+      color: var(--cor-texto-suave);
+      font-style: italic;
+    }
+
+    /* Total do carrinho */
+    .total-bar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.8rem;
+      border-top: 1px solid var(--cor-borda);
+      background: rgba(91,33,182,0.03);
+    }
+
+    .total-label { font-size: 0.85rem; color: var(--cor-texto-suave); }
+    .total-valor {
+      font-family: var(--fonte-titulo);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--cor-sucesso);
+    }
+
+    /* --- Seção 3: Formulário de nova solicitação --- */
+    .nova-sol-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    /* Seletor de atributo: select com data-tipo */
+    select[data-tipo="servico"] {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300d4ff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+    }
+
+    /* Campos de saída (labels de preço, prazo, data, status) */
+    .campo-saida {
+      background: rgba(91,33,182,0.04);
+      border: 1.5px solid rgba(91,33,182,0.15);
+      border-radius: var(--raio);
+      padding: 11px 16px;
+      font-size: 0.95rem;
+      color: var(--cor-texto);
+      min-height: 46px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* Seletor de classe: destaque em campo-saida com valor */
+    .campo-saida.com-valor {
+      color: var(--cor-primaria);
+      font-weight: 600;
+    }
+
+    /* Status em elaboração */
+    .campo-saida.status-elaboracao {
+      color: #f59e0b;
+      background: rgba(245,158,11,0.05);
+      border-color: rgba(245,158,11,0.2);
+    }
+
+    /* Botão de incluir solicitação */
+    #btn-incluir-sol {
+      grid-column: span 2;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .nova-sol-grid { grid-template-columns: 1fr; }
+      #btn-incluir-sol { grid-column: span 1; }
+      .tabela-solicitacoes { font-size: 0.78rem; }
+      .tabela-solicitacoes th, .tabela-solicitacoes td { padding: 10px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="pagina-solicitacao">
+
+  <!-- ===== HEADER ===== -->
+  <header class="sol-header">
+    <a href="index.html" class="logo">
+      <div class="logo-icone">TS</div>
+      <span class="logo-texto">Tech<span>Solutions</span></span>
+    </a>
+    <nav>
+      <a href="index.html">← Voltar ao site</a>
+    </nav>
+  </header>
+
+  <main class="sol-main">
+
+    <!-- =================== SEÇÃO 1: USUÁRIO LOGADO =================== -->
+    <section class="sol-secao" aria-label="Informações do usuário">
+      <div class="sol-secao-header">
+        <h2>👤 Usuário Logado</h2>
+        <span class="badge badge-sucesso">● Online</span>
+      </div>
+      <div class="sol-secao-body">
+        <div class="usuario-grid">
+          <div class="usuario-avatar" id="avatar-iniciais">JS</div>
+          <div>
+            <label id="label-nome">João da Silva</label>
+            <label id="label-login">joao.silva@empresa.com.br</label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== SEÇÃO 2: SOLICITAÇÕES EXISTENTES =================== -->
+    <section class="sol-secao" aria-label="Minhas solicitações de TI">
+      <div class="sol-secao-header">
+        <h2>📋 Minhas Solicitações</h2>
+        <span class="badge badge-info" id="contador-badge">4 solicitações</span>
+      </div>
+
+      <div style="overflow-x: auto;">
+        <table class="tabela-solicitacoes" id="tabela-sol" aria-label="Tabela de solicitações de serviços de TI">
+          <thead>
+            <tr>
+              <th scope="col">Data do Pedido</th>
+              <th scope="col">Nº Solicitação</th>
+              <th scope="col">Serviço de TI</th>
+              <th scope="col">Status</th>
+              <th scope="col">Preço</th>
+              <th scope="col">Data Prevista</th>
+              <th scope="col">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="corpo-tabela">
+            <!-- Dados fictícios fixos, ordenados por data crescente -->
+            <tr data-id="SOL-001">
+              <td>02/01/2024</td>
+              <td><strong>SOL-001</strong></td>
+              <td>Suporte Técnico Gerenciado</td>
+              <td><span class="badge badge-sucesso">CONCLUÍDO</span></td>
+              <td>R$ 600,00</td>
+              <td>07/01/2024</td>
+              <td><button class="btn-excluir" onclick="excluirLinha(this)">🗑 Excluir</button></td>
+            </tr>
+            <tr data-id="SOL-002">
+              <td>15/02/2024</td>
+              <td><strong>SOL-002</strong></td>
+              <td>Redes &amp; Infraestrutura</td>
+              <td><span class="badge badge-sucesso">CONCLUÍDO</span></td>
+              <td>R$ 800,00</td>
+              <td>22/02/2024</td>
+              <td><button class="btn-excluir" onclick="excluirLinha(this)">🗑 Excluir</button></td>
+            </tr>
+            <tr data-id="SOL-003">
+              <td>10/03/2024</td>
+              <td><strong>SOL-003</strong></td>
+              <td>Cibersegurança</td>
+              <td><span class="badge badge-aviso">EM ANDAMENTO</span></td>
+              <td>R$ 1.200,00</td>
+              <td>25/03/2024</td>
+              <td><button class="btn-excluir" onclick="excluirLinha(this)">🗑 Excluir</button></td>
+            </tr>
+            <tr data-id="SOL-004">
+              <td>01/04/2024</td>
+              <td><strong>SOL-004</strong></td>
+              <td>Cloud Computing</td>
+              <td><span class="badge badge-info">EM ELABORAÇÃO</span></td>
+              <td>R$ 2.500,00</td>
+              <td>15/04/2024</td>
+              <td><button class="btn-excluir" onclick="excluirLinha(this)">🗑 Excluir</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Total -->
+      <div class="total-bar">
+        <span class="total-label">Total investido:</span>
+        <span class="total-valor" id="total-geral">R$ 5.100,00</span>
+      </div>
+    </section>
+
+    <!-- =================== SEÇÃO 3: NOVA SOLICITAÇÃO =================== -->
+    <section class="sol-secao" aria-label="Nova solicitação de serviço">
+      <div class="sol-secao-header">
+        <h2>➕ Nova Solicitação</h2>
+      </div>
+      <div class="sol-secao-body">
+        <div class="nova-sol-grid">
+
+          <!-- Serviço de TI (combo box) -->
+          <div class="form-grupo">
+            <label for="sel-servico">Serviço de TI</label>
+            <select id="sel-servico" data-tipo="servico" aria-label="Selecione o serviço de TI">
+              <option value="">Selecione um serviço...</option>
+              <option value="suporte"  data-preco="600.00"   data-prazo="5">Suporte Técnico Gerenciado</option>
+              <option value="redes"    data-preco="800.00"   data-prazo="10">Redes &amp; Infraestrutura</option>
+              <option value="cyber"    data-preco="1200.00"  data-prazo="15">Cibersegurança</option>
+              <option value="cloud"    data-preco="2500.00"  data-prazo="14">Cloud Computing</option>
+              <option value="dev"      data-preco="5000.00"  data-prazo="30">Desenvolvimento de Sistemas</option>
+              <option value="ia"       data-preco="3800.00"  data-prazo="21">Inteligência Artificial</option>
+            </select>
+          </div>
+
+          <!-- Preço (label/output) -->
+          <div class="form-grupo">
+            <label>Preço do Serviço</label>
+            <output id="label-preco" class="campo-saida" aria-live="polite">—</output>
+          </div>
+
+          <!-- Prazo de atendimento -->
+          <div class="form-grupo">
+            <label>Prazo de Atendimento</label>
+            <output id="label-prazo" class="campo-saida" aria-live="polite">—</output>
+          </div>
+
+          <!-- Data prevista de atendimento -->
+          <div class="form-grupo">
+            <label>Data Prevista de Atendimento</label>
+            <output id="label-data-prev" class="campo-saida" aria-live="polite">—</output>
+          </div>
+
+          <!-- Status -->
+          <div class="form-grupo">
+            <label>Status</label>
+            <output id="label-status" class="campo-saida status-elaboracao">EM ELABORAÇÃO</output>
+          </div>
+
+          <!-- Mensagem de erro -->
+          <div id="sol-msg" style="display:none; grid-column: span 2;"></div>
+
+          <!-- Botão Incluir -->
+          <div id="btn-incluir-sol" style="display:flex; justify-content:flex-end;">
+            <button type="button" class="btn btn-primario" id="btn-add-sol">
+              ✅ Incluir Solicitação
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+  // ============================================================
+  // DADOS DOS SERVIÇOS (preço e prazo fixos por serviço)
+  // ============================================================
+  const select = document.getElementById('sel-servico');
+  const labelPreco    = document.getElementById('label-preco');
+  const labelPrazo    = document.getElementById('label-prazo');
+  const labelDataPrev = document.getElementById('label-data-prev');
+  const btnAddSol     = document.getElementById('btn-add-sol');
+  const solMsg        = document.getElementById('sol-msg');
+
+  // Formatar moeda BRL
+  function formatarMoeda(valor) {
+    return 'R$ ' + parseFloat(valor).toLocaleString('pt-BR', {
+      minimumFractionDigits: 2, maximumFractionDigits: 2
+    });
+  }
+
+  // Adicionar dias a uma data
+  function adicionarDias(data, dias) {
+    const d = new Date(data);
+    d.setDate(d.getDate() + dias);
+    return d;
+  }
+
+  // Formatar data BR
+  function formatarData(d) {
+    return d.toLocaleDateString('pt-BR', { day:'2-digit', month:'2-digit', year:'numeric' });
+  }
+
+  // Atualizar campos ao trocar serviço
+  select.addEventListener('change', function () {
+    const opt = this.options[this.selectedIndex];
+    const preco = opt.dataset.preco;
+    const prazo = opt.dataset.prazo;
+
+    if (preco && prazo) {
+      labelPreco.textContent = formatarMoeda(preco);
+      labelPreco.className = 'campo-saida com-valor';
+
+      labelPrazo.textContent = prazo + ' dias úteis';
+      labelPrazo.className = 'campo-saida com-valor';
+
+      const dataAtend = adicionarDias(new Date(), parseInt(prazo));
+      labelDataPrev.textContent = formatarData(dataAtend);
+      labelDataPrev.className = 'campo-saida com-valor';
+    } else {
+      labelPreco.textContent = '—';
+      labelPreco.className = 'campo-saida';
+      labelPrazo.textContent = '—';
+      labelPrazo.className = 'campo-saida';
+      labelDataPrev.textContent = '—';
+      labelDataPrev.className = 'campo-saida';
+    }
+    solMsg.style.display = 'none';
+  });
+
+  // ============================================================
+  // CONTADOR DE SOLICITAÇÕES
+  // ============================================================
+  let contadorSol = 4;
+  let totalValor  = 5100.00;
+  let numSolAtual = 5; // próximo número de solicitação
+
+  function atualizarContador() {
+    document.getElementById('contador-badge').textContent = contadorSol + ' solicitaç' + (contadorSol === 1 ? 'ão' : 'ões');
+    document.getElementById('total-geral').textContent = formatarMoeda(totalValor);
+  }
+
+  // ============================================================
+  // EXCLUIR LINHA
+  // ============================================================
+  function excluirLinha(btn) {
+    const linha = btn.closest('tr');
+    const precoCell = linha.cells[4].textContent.replace(/[R$\s.]/g, '').replace(',', '.');
+    const preco = parseFloat(precoCell) || 0;
+
+    linha.classList.add('linha-removida');
+    setTimeout(function () {
+      linha.remove();
+      contadorSol--;
+      totalValor -= preco;
+      if (totalValor < 0) totalValor = 0;
+      atualizarContador();
+
+      // Se tabela ficou vazia
+      const tbody = document.getElementById('corpo-tabela');
+      if (tbody.rows.length === 0) {
+        tbody.innerHTML = '<tr><td class="tabela-vazia" colspan="7">Nenhuma solicitação encontrada.</td></tr>';
+      }
+    }, 300);
+  }
+
+  // ============================================================
+  // INCLUIR NOVA SOLICITAÇÃO NA TABELA
+  // ============================================================
+  btnAddSol.addEventListener('click', function () {
+    solMsg.style.display = 'none';
+
+    if (!select.value) {
+      solMsg.className = 'msg-erro';
+      solMsg.textContent = '⚠️ Selecione um serviço antes de incluir.';
+      solMsg.style.display = 'block';
+      return;
+    }
+
+    const opt      = select.options[select.selectedIndex];
+    const servico  = opt.text;
+    const preco    = parseFloat(opt.dataset.preco);
+    const prazo    = parseInt(opt.dataset.prazo);
+    const hoje     = new Date();
+    const dataAtend = adicionarDias(hoje, prazo);
+    const numSol   = 'SOL-' + String(numSolAtual).padStart(3, '0');
+
+    const tbody = document.getElementById('corpo-tabela');
+
+    // Remove linha "vazia" se existir
+    const linhaVazia = tbody.querySelector('.tabela-vazia');
+    if (linhaVazia) linhaVazia.parentElement.remove();
+
+    const tr = document.createElement('tr');
+    tr.dataset.id = numSol;
+    tr.style.animation = 'fadeInUp 0.4s ease both';
+    tr.innerHTML =
+      '<td>' + formatarData(hoje) + '</td>' +
+      '<td><strong>' + numSol + '</strong></td>' +
+      '<td>' + servico + '</td>' +
+      '<td><span class="badge badge-info">EM ELABORAÇÃO</span></td>' +
+      '<td>' + formatarMoeda(preco) + '</td>' +
+      '<td>' + formatarData(dataAtend) + '</td>' +
+      '<td><button class="btn-excluir" onclick="excluirLinha(this)">🗑 Excluir</button></td>';
+
+    tbody.appendChild(tr);
+
+    contadorSol++;
+    totalValor += preco;
+    numSolAtual++;
+    atualizarContador();
+
+    // Limpar seleção
+    select.value = '';
+    labelPreco.textContent    = '—';
+    labelPreco.className      = 'campo-saida';
+    labelPrazo.textContent    = '—';
+    labelPrazo.className      = 'campo-saida';
+    labelDataPrev.textContent = '—';
+    labelDataPrev.className   = 'campo-saida';
+
+    solMsg.className = 'msg-sucesso';
+    solMsg.textContent = '✅ Solicitação ' + numSol + ' incluída com sucesso!';
+    solMsg.style.display = 'block';
+    setTimeout(() => { solMsg.style.display = 'none'; }, 3000);
+  });
+
+  // ============================================================
+  // CARREGAR DADOS DO USUÁRIO LOGADO (sessionStorage ou fixo)
+  // ============================================================
+  (function carregarUsuario() {
+    const email = sessionStorage.getItem('techsolutions_usuario') || 'joao.silva@empresa.com.br';
+    const nome  = 'João da Silva'; // Fixo nesta versão
+    document.getElementById('label-nome').textContent  = nome;
+    document.getElementById('label-login').textContent = email;
+
+    // Iniciais do avatar
+    const iniciais = nome.split(' ').slice(0, 2).map(p => p[0]).join('').toUpperCase();
+    document.getElementById('avatar-iniciais').textContent = iniciais;
+  })();
+</script>
+
+</body>
+</html>
