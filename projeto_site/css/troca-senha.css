@@ -1,0 +1,89 @@
+/* Estilos internos: acumulação com style.css */
+body.pagina-form {
+  background:
+    radial-gradient(ellipse at 80% 20%, rgba(124,58,237,0.1) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(91,33,182,0.08) 0%, transparent 50%),
+    var(--cor-fundo);
+}
+
+/* Seletor de id para o campo de instruções */
+#instrucoes-senha {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(91,33,182,0.05);
+  border: 1px solid rgba(91,33,182,0.15);
+  border-radius: var(--raio);
+  padding: 1rem 1.2rem;
+  font-size: 0.82rem;
+  color: var(--cor-texto-suave);
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+/* Seletor de classe para título dentro das instruções */
+#instrucoes-senha .instrucoes-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--cor-primaria);
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+/* Seletor de classe + seletor de tipo de elemento */
+#instrucoes-senha code {
+  background: rgba(0,0,0,0.3);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #7dd3fc;
+  letter-spacing: 0.05em;
+}
+
+/* Indicador de força da senha */
+.forca-senha {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.forca-barra {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--cor-borda);
+  transition: var(--transicao);
+}
+
+.forca-barra.ativa-fraca  { background: var(--cor-erro); }
+.forca-barra.ativa-media  { background: #f59e0b; }
+.forca-barra.ativa-forte  { background: var(--cor-sucesso); }
+
+.forca-texto {
+  font-size: 0.75rem;
+  color: var(--cor-texto-suave);
+  margin-top: 4px;
+}
+
+#msg-feedback { display: none; margin-bottom: 1rem; }
+
+.senha-wrapper { position: relative; }
+.senha-wrapper input { padding-right: 48px; }
+
+.btn-ver-senha {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--cor-texto-suave);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  transition: var(--transicao);
+}
+.btn-ver-senha:hover { color: var(--cor-primaria); }

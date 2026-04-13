@@ -1,0 +1,250 @@
+/* ============ ESTILOS INTERNOS – SOLICITAÇÃO ============ */
+
+/* Layout principal */
+body {
+  overflow-y: auto; /* Controle de barra de rolagem automática */
+}
+
+.pagina-solicitacao {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at top right, rgba(91,33,182,0.06) 0%, transparent 50%),
+    var(--cor-fundo);
+}
+
+/* --- Header compacto da página --- */
+.sol-header {
+  background: rgba(245,244,255,0.97);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--cor-borda);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.sol-header nav a {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: var(--transicao);
+}
+
+.sol-header nav a:hover { color: var(--cor-texto); background: rgba(255,255,255,0.05); }
+
+/* --- Conteúdo principal --- */
+.sol-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* --- Seções da página --- */
+.sol-secao {
+  background: var(--cor-card);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.sol-secao-header {
+  padding: 1.2rem 1.8rem;
+  border-bottom: 1px solid var(--cor-borda);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(91,33,182,0.03);
+}
+
+.sol-secao-header h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sol-secao-body {
+  padding: 1.8rem;
+}
+
+/* --- Seção 1: Usuário logado --- */
+.usuario-grid {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.usuario-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fonte-titulo);
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+/* Seletor de id para labels de usuário */
+#label-nome, #label-login {
+  display: block;
+}
+
+#label-nome {
+  font-family: var(--fonte-titulo);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+}
+
+#label-login {
+  font-size: 0.85rem;
+  color: var(--cor-primaria);
+  margin-top: 2px;
+}
+
+/* --- Tabela de solicitações --- */
+.tabela-solicitacoes {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.tabela-solicitacoes thead tr {
+  background: rgba(91,33,182,0.06);
+}
+
+.tabela-solicitacoes th {
+  padding: 12px 14px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
+.tabela-solicitacoes td {
+  padding: 13px 14px;
+  white-space: nowrap;
+}
+
+/* Seletor de pseudo-classe: última coluna (botão excluir) */
+.tabela-solicitacoes td:last-child {
+  text-align: center;
+}
+
+.btn-excluir {
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  color: #fca5a5;
+  padding: 5px 12px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transicao);
+  font-family: var(--fonte-titulo);
+}
+
+.btn-excluir:hover {
+  background: rgba(239,68,68,0.25);
+  border-color: rgba(239,68,68,0.5);
+}
+
+/* Linha com animação de remoção */
+.linha-removida {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateX(-10px); }
+}
+
+.tabela-vazia {
+  text-align: center;
+  padding: 2rem !important;
+  color: var(--cor-texto-suave);
+  font-style: italic;
+}
+
+/* Total do carrinho */
+.total-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.8rem;
+  border-top: 1px solid var(--cor-borda);
+  background: rgba(91,33,182,0.03);
+}
+
+.total-label { font-size: 0.85rem; color: var(--cor-texto-suave); }
+.total-valor {
+  font-family: var(--fonte-titulo);
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--cor-sucesso);
+}
+
+/* --- Seção 3: Formulário de nova solicitação --- */
+.nova-sol-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+}
+
+/* Seletor de atributo: select com data-tipo */
+select[data-tipo="servico"] {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300d4ff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 40px;
+}
+
+/* Campos de saída (labels de preço, prazo, data, status) */
+.campo-saida {
+  background: rgba(91,33,182,0.04);
+  border: 1.5px solid rgba(91,33,182,0.15);
+  border-radius: var(--raio);
+  padding: 11px 16px;
+  font-size: 0.95rem;
+  color: var(--cor-texto);
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+}
+
+/* Seletor de classe: destaque em campo-saida com valor */
+.campo-saida.com-valor {
+  color: var(--cor-primaria);
+  font-weight: 600;
+}
+
+/* Status em elaboração */
+.campo-saida.status-elaboracao {
+  color: #f59e0b;
+  background: rgba(245,158,11,0.05);
+  border-color: rgba(245,158,11,0.2);
+}
+
+/* Botão de incluir solicitação */
+#btn-incluir-sol {
+  grid-column: span 2;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .nova-sol-grid { grid-template-columns: 1fr; }
+  #btn-incluir-sol { grid-column: span 1; }
+  .tabela-solicitacoes { font-size: 0.78rem; }
+  .tabela-solicitacoes th, .tabela-solicitacoes td { padding: 10px 8px; }
+}

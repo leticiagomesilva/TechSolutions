@@ -1,0 +1,94 @@
+/* Seletores de tipo e id específicos da página de login */
+body.pagina-form {
+  background: radial-gradient(ellipse at 20% 80%, rgba(124,58,237,0.12) 0%, transparent 50%),
+              radial-gradient(ellipse at 80% 20%, rgba(91,33,182,0.1) 0%, transparent 50%),
+              var(--cor-fundo);
+}
+
+/* Acumulação de estilos: card base + personalização login */
+.form-container.login-card {
+  position: relative;
+}
+
+.form-container.login-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 21px;
+  background: linear-gradient(135deg, rgba(91,33,182,0.2), rgba(124,58,237,0.2), transparent);
+  z-index: -1;
+}
+
+/* Seletor de atributo: inputs com type=email ou type=password */
+input[type="email"],
+input[type="password"] {
+  letter-spacing: 0.02em;
+}
+
+input[type="password"] {
+  font-size: 1.1rem;
+  letter-spacing: 0.15em;
+}
+
+/* Wrapper de senha com botão de visibilidade */
+.senha-wrapper {
+  position: relative;
+}
+
+.senha-wrapper input {
+  padding-right: 48px;
+}
+
+.btn-ver-senha {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--cor-texto-suave);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px;
+  transition: var(--transicao);
+}
+
+.btn-ver-senha:hover { color: var(--cor-primaria); }
+
+/* Link estilizado inline */
+.link-inline {
+  color: var(--cor-primaria);
+  font-size: 0.85rem;
+  transition: var(--transicao);
+}
+
+.link-inline:hover { text-decoration: underline; }
+
+/* Mensagem de feedback no topo do form */
+#msg-feedback {
+  display: none;
+  margin-bottom: 1.2rem;
+}
+
+/* Sobrescrita: botão primário dentro do form-acoes fica mais largo */
+.form-acoes .btn-primario {
+  flex: 2;
+}
+
+/* Separador estilizado */
+.separador {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.2rem 0;
+  color: var(--cor-texto-suave);
+  font-size: 0.8rem;
+}
+
+.separador::before,
+.separador::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--cor-borda);
+}

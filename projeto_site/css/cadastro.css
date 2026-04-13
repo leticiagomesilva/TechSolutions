@@ -1,0 +1,135 @@
+/* Estilos internos da página de cadastro */
+body.pagina-form {
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(91,33,182,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 90%, rgba(124,58,237,0.1) 0%, transparent 50%),
+    var(--cor-fundo);
+  padding: 2rem;
+  align-items: flex-start;
+}
+
+/* Seletor de classe: formulário largo para cadastro */
+.form-container.cadastro-card {
+  margin: 0 auto;
+}
+
+/* Seletor de id para instruções de senha */
+#instrucoes-senha {
+  background: rgba(91,33,182,0.05);
+  border: 1px solid rgba(91,33,182,0.12);
+  border-radius: var(--raio);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+  line-height: 1.8;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Seletor de tipo: output como bloco */
+output#instrucoes-senha {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+/* Seletor de atributo: inputs com maxlength (CPF, tel) */
+input[maxlength] {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.08em;
+}
+
+/* Sobrescrita: input de data */
+input[type="date"] {
+  font-family: var(--fonte-corpo);
+  letter-spacing: 0;
+  cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+/* Seletor de pseudo-classe: campos opcionais com placeholder diferente */
+input[placeholder*="opcional"]::placeholder {
+  color: rgba(148, 163, 184, 0.4);
+  font-style: italic;
+}
+
+/* Rádio personalizado */
+.radio-personalizado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.radio-personalizado label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 1.5px solid var(--cor-borda);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--cor-texto-suave);
+  transition: var(--transicao);
+}
+
+.radio-personalizado input[type="radio"] {
+  width: auto;
+  accent-color: var(--cor-primaria);
+}
+
+.radio-personalizado label:has(input:checked) {
+  border-color: var(--cor-primaria);
+  background: rgba(91,33,182,0.08);
+  color: var(--cor-primaria);
+}
+
+#msg-feedback { display: none; margin-bottom: 1.2rem; }
+
+.senha-wrapper { position: relative; }
+.senha-wrapper input { padding-right: 48px; }
+.btn-ver-senha {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none;
+  color: var(--cor-texto-suave); cursor: pointer;
+  font-size: 1rem; padding: 4px;
+  transition: var(--transicao);
+}
+.btn-ver-senha:hover { color: var(--cor-primaria); }
+
+/* Tabela usada para organizar campos de uma linha no cadastro */
+table.layout-form {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0;
+}
+
+table.layout-form td {
+  padding: 0;
+  border: none;
+  vertical-align: top;
+}
+
+table.layout-form td:first-child {
+  padding-right: 0.8rem;
+}
+
+/* Indicador de força */
+.forca-senha { display: flex; gap: 4px; margin-top: 8px; }
+.forca-barra { flex: 1; height: 4px; border-radius: 2px; background: var(--cor-borda); transition: var(--transicao); }
+.forca-barra.ativa-fraca  { background: var(--cor-erro); }
+.forca-barra.ativa-media  { background: #f59e0b; }
+.forca-barra.ativa-forte  { background: var(--cor-sucesso); }
+.forca-texto { font-size: 0.75rem; color: var(--cor-texto-suave); margin-top: 4px; }
+
+@media (max-width: 600px) {
+  table.layout-form tr { display: flex; flex-direction: column; }
+  table.layout-form td:first-child { padding-right: 0; }
+}
